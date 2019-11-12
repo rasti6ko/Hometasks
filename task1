@@ -1,0 +1,73 @@
+--I2-hm-schema.sql--
+alter session set "_ORACLE_SCRIPT"=true;
+CREATE USER homework IDENTIFIED BY homework;
+grant connect to homework;
+grant connect, resource, dba to homework;
+grant create session to homework;
+grant unlimited tablespace to homework;
+grant create table to homework;
+
+
+--I2-hm-createTables.sql
+CREATE TABLE employees (
+    id       NUMBER PRIMARY KEY,
+    name     VARCHAR2(15),
+    surname  VARCHAR2(15),
+    date_of_birth  DATE
+);
+
+insert into employees
+values (5555, 'Anton', 'Savelijs', '12.11.1988');
+
+insert into employees
+values (6953, 'Krists', 'Kazaks', '01.05.1982');
+
+insert into employees
+values (7822, 'Eva', 'Saulite', '25.07.1990');
+
+
+
+CREATE TABLE employee_projects (
+    id       NUMBER PRIMARY KEY,
+    employee_id NUMBER,
+    project_id NUMBER
+);
+
+insert into employee_projects
+values (1, 5555, 9267);
+
+insert into employee_projects
+values (2, 6953, 5884);
+
+insert into employee_projects
+values (3, 7822, 1568);
+
+
+CREATE TABLE projects (
+    id       NUMBER PRIMARY KEY,
+    title    VARCHAR2(50)
+);
+
+insert into projects
+values (9267, 'T2Mobile');
+
+insert into projects
+values (5884, 'GreenEarth');
+
+insert into projects
+values (1568, 'Space');
+
+insert into projects
+values (5684, 'SmartHome');
+
+--I2-hm-privileges.sql--
+Add grants from homework to working schema
+grant select on employees to working;
+
+--to check if work--
+select *
+from homework.employees;
+
+--I2-hm-view.sql--
+
+CREATE VIEW company_projects AS SELECT * FROM projects WHERE title = 'SmartHome';
